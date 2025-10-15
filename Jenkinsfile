@@ -1,26 +1,30 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON = 'C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: '[https://github.com/Manthan-Kansagara/python-jenkins-practicals.git](https://github.com/Manthan-Kansagara/python-jenkins-practicals.git)'
+                git branch: 'main', url: 'https://github.com/Manthan-Kansagara/python-jenkins-practicals.git'
             }
         }
 
         stage('Build') {
             steps {
                 echo 'Installing dependencies...'
-                bat '"C:\Users\Admin\AppData\Local\Programs\Python\Python313\python.exe" -m pip install --upgrade pip'
-                bat '"C:\Users\Admin\AppData\Local\Programs\Python\Python313\python.exe" -m pip install -r requirements.txt'
-                bat '"C:\Users\Admin\AppData\Local\Programs\Python\Python313\python.exe" -m pip install pytest'
+                bat "${env.PYTHON} -m pip install --upgrade pip"
+                bat "${env.PYTHON} -m pip install -r requirements.txt"
+                bat "${env.PYTHON} -m pip install pytest"
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                bat '"C:\Users\Admin\AppData\Local\Programs\Python\Python313\python.exe" -m pytest --junitxml=report.xml'
+                bat "${env.PYTHON} -m pytest --junitxml=report.xml"
             }
         }
     }
@@ -32,4 +36,3 @@ pipeline {
         }
     }
 }
-
